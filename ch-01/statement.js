@@ -12,39 +12,38 @@ function printStatement(invoice, plays) {
   //     minimumFractionDigits: 2,
   //   }).format;
 
-  invoice.performances.forEach((perf) => {
-    // console.log(`play id :${perf.playID}, audience: ${perf.audience}`);
-    const play = plays[perf.playID];
-    // console.log(play);
+  invoice.performances.forEach(({ playID, audience }) => {
+    // console.log(`play id :${playID}, audience: ${audience}`);
+    const { name, type } = plays[playID];
     let theAmount = 0;
 
-    switch (play.type) {
+    switch (type) {
       case "tragedy":
         theAmount = 40000;
-        perf.audience > 30
-          ? (theAmount += 1000 * (perf.audience - 30))
+        audience > 30
+          ? (theAmount += 1000 * (audience - 30))
           : (theAmount += 0);
         break;
       case "comedy":
         theAmount = 30000;
-        perf.audience > 20
-          ? (theAmount += 10000 + 500 * (perf.audience - 20))
+        audience > 20
+          ? (theAmount += 10000 + 500 * (audience - 20))
           : (theAmount += 0);
-        theAmount += 300 * perf.audience;
+        theAmount += 300 * audience;
         break;
       default:
-        throw new Error(`unknown type: ${play.type}`);
+        throw new Error(`unknown type: ${type}`);
     }
 
-    volumeCredits += Math.max(perf.audience - 30, 0);
+    volumeCredits += Math.max(audience - 30, 0);
 
     // add extra credit for every ten comedy attendees
-    play.type === "comedy"
-      ? (volumeCredits += Math.floor(perf.audience / 5))
+    type === "comedy"
+      ? (volumeCredits += Math.floor(audience / 5))
       : (volumeCredits += 0);
 
     // print line for this order
-    result += ` ${play.name}: $${theAmount / 100} (${perf.audience} seats)\n`; // ${format(theAmount / 100)}
+    result += `\t${name}: $${theAmount / 100} (${audience} seats)\n`; // ${format(theAmount / 100)}
     totalAmount += theAmount;
   });
   result += `Amount owed is $${totalAmount / 100}\n`; //${format(totalAmount / 100)}
@@ -54,3 +53,10 @@ function printStatement(invoice, plays) {
 
 const result = printStatement(data.invoice[0], data.plays);
 console.log(result);
+
+// console.log("======================================");
+
+// data.invoice[0].performances.forEach((per) => {
+//   const play = data.plays[per.playID];
+//   console.log(play);
+// });
