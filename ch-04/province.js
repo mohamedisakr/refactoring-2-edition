@@ -1,12 +1,17 @@
-export default class Province {
-  constructor(doc) {
+const Producer = require("./producer");
+
+class Province {
+  constructor(data) {
     this._producers = [];
     this._totalProduction = 0;
 
-    this._name = doc.name;
-    this._demand = doc.demand;
-    this._price = doc.price;
-    doc.producers.forEach((prod) => this.addProducer(new Producer(this, prod)));
+    this._name = data.name;
+    this._demand = data.demand;
+    this._price = data.price;
+
+    data.producers.forEach((prod) =>
+      this.addProducer(new Producer(this, prod))
+    );
   }
 
   addProducer(producer) {
@@ -77,6 +82,9 @@ export default class Province {
   }
 }
 
+module.exports = Province;
+
+/*
 function sampleProvinceData() {
   return {
     name: "Asia",
@@ -89,5 +97,4 @@ function sampleProvinceData() {
     price: 20,
   };
 }
-
-export { sampleProvinceData };
+*/

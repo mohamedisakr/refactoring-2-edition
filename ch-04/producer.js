@@ -1,6 +1,6 @@
 class Producer {
-  constructor(aProvince, data) {
-    this._province = aProvince;
+  constructor(province, data) {
+    this._province = province;
     this._cost = data.cost;
     this._name = data.name;
     this._production = data.production || 0;
@@ -29,3 +29,5 @@ class Producer {
     this._production = newProduction;
   }
 }
+
+module.exports = Producer;
