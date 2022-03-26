@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "jest-stare": "^1.26.0",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.6"
   }
 }
